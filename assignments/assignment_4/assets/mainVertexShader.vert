@@ -5,9 +5,9 @@ layout(location = 1) in vec2 aTexPos;
 
 out vec2 TexPos;
 
-uniform mat4 projection; // Projection matrix
-uniform mat4 view;       // View matrix
-uniform mat4 model;      // Matrix for transformations
+uniform mat4 projection;
+uniform mat4 view;
+uniform mat4 model;
 uniform float _time;
 
 void main()

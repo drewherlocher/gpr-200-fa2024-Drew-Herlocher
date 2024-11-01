@@ -14,6 +14,7 @@
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 720;
 
+
 // Vertex data: position (X, Y, Z), texture coordinates (U, V)
 float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -59,10 +60,30 @@ float vertices[] = {
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
+// Time
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
+// Cube data
+const int NUM_CUBES = 25;
+std::vector<glm::vec3> cubePositions(NUM_CUBES);
+std::vector<glm::vec3> cubeRotations(NUM_CUBES);
+std::vector<glm::vec3> cubeScales(NUM_CUBES);
+
+// Cube creator
+void CreateCubes() {
+    for (int i = 0; i < NUM_CUBES; ++i) {
+        cubePositions[i] = glm::vec3(ew::RandomRange(-4.0f, 4.0f), ew::RandomRange(-5.0f, 5.0f), ew::RandomRange(-15.0f, 0.0f));
+        std::cout << "Cube " << i << " Position: " << cubePositions[i].x << ", " << cubePositions[i].y << ", " << cubePositions[i].z << std::endl;
+        cubeRotations[i] = glm::vec3(ew::RandomRange(0.0f, 360.0f), ew::RandomRange(0.0f, 360.0f), ew::RandomRange(0.0f, 360.0f));
+    }
+}
 
 int main() {
     printf("Initializing...\n");
+
+    srand(static_cast<unsigned int>(time(nullptr)));
+    CreateCubes();
 
     // Initialize GLFW
     if (!glfwInit()) {
@@ -105,7 +126,7 @@ int main() {
     Shader mainShader("assets/mainVertexShader.vert", "assets/mainFragmentShader.frag");
 
     // Create camera object
-    Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));  // Adjust camera position
+    Camera camera(window);
 
     // Set up vertex array object (VAO) and vertex buffer object (VBO)
     unsigned int VBO, VAO;
@@ -130,36 +151,51 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
 
-    // Create transform object and set transformation values
+    // Create transform object
     Transform transform;
-    transform.position = glm::vec3(0.0f, 0.0f, 0.0f);
-    transform.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-    transform.scale = glm::vec3(0.5f, 0.5f, 0.5f); // Adjust scale as needed
 
     // Main loop
     while (!glfwWindowShouldClose(window)) {
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
         glfwPollEvents();
         glClearColor(0.3f, 0.4f, 0.9f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 model = glm::mat4(1.0f); // Initialize model matrix to identity
-        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+        glm::mat4 model = glm::mat4(1.0f);
+      
 
         mainShader.use();
 
+        camera.ProcessInput(deltaTime);
+
         // Set camera and transformations
         glm::mat4 view = camera.GetViewMatrix();
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 projection = camera.GetProjectionMatrix((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT);
         mainShader.setMat4("view", view);
         mainShader.setMat4("projection", projection);
-        mainShader.setMat4("model", model); // Send the updated model matrix to the shader
+        mainShader.setMat4("model", model);
 
         float time = glfwGetTime();
         mainShader.setFloat("_time", time);
 
-        cubeTexture.Bind(0); // Ensure the texture is bound
-        glBindVertexArray(VAO); // Bind VAO before drawing
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(VAO);
+        for (unsigned int i = 0; i < NUM_CUBES; i++)
+        {
+            cubeRotations[i].x += 30.0f * deltaTime;
+            cubeRotations[i].y -= 30.0f * deltaTime;
+            cubeRotations[i].z += 30.0f * deltaTime;
+            // calculate the model matrix for each object and pass it to shader before drawing
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            model = glm::rotate(model, glm::radians(cubeRotations[i].x), glm::vec3(1.0f, 0.0f, 0.0f));
+            model = glm::rotate(model, glm::radians(cubeRotations[i].y), glm::vec3(0.0f, 1.0f, 0.0f)); 
+            model = glm::rotate(model, glm::radians(cubeRotations[i].z), glm::vec3(0.0f, 0.0f, 1.0f));
+            mainShader.setMat4("model", model);
+            cubeTexture.Bind(0);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
 
         glfwSwapBuffers(window);
     }

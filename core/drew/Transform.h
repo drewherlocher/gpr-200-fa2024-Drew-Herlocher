@@ -11,7 +11,7 @@ public:
     glm::vec3 scale;    // Scale in 3D space
 
     // Constructor with default values
-    Transform(glm::vec3 p = glm::vec3(0.0f), glm::vec3 r = glm::vec3(0.0f), glm::vec3 s = glm::vec3(1.0f))
+    Transform(glm::vec3 p = glm::vec3(0.0f), glm::vec3 r = glm::vec3(0.0f), glm::vec3 s = glm::vec3(0.5f))
         : position(p), rotation(r), scale(s) {}
 
     // Function to get the model matrix
