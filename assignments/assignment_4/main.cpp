@@ -73,9 +73,10 @@ std::vector<glm::vec3> cubeScales(NUM_CUBES);
 // Cube creator
 void CreateCubes() {
     for (int i = 0; i < NUM_CUBES; ++i) {
-        cubePositions[i] = glm::vec3(ew::RandomRange(-4.0f, 4.0f), ew::RandomRange(-5.0f, 5.0f), ew::RandomRange(-15.0f, 0.0f));
+        cubePositions[i] = glm::vec3(ew::RandomRange(-10.0f, 10.0f), ew::RandomRange(-10.0f, 10.0f), ew::RandomRange(-10.0f, 10.0f));
         std::cout << "Cube " << i << " Position: " << cubePositions[i].x << ", " << cubePositions[i].y << ", " << cubePositions[i].z << std::endl;
         cubeRotations[i] = glm::vec3(ew::RandomRange(0.0f, 360.0f), ew::RandomRange(0.0f, 360.0f), ew::RandomRange(0.0f, 360.0f));
+        cubeScales[i] = glm::vec3(ew::RandomRange(0.3f, 3.0f));
     }
 }
 
@@ -192,6 +193,7 @@ int main() {
             model = glm::rotate(model, glm::radians(cubeRotations[i].x), glm::vec3(1.0f, 0.0f, 0.0f));
             model = glm::rotate(model, glm::radians(cubeRotations[i].y), glm::vec3(0.0f, 1.0f, 0.0f)); 
             model = glm::rotate(model, glm::radians(cubeRotations[i].z), glm::vec3(0.0f, 0.0f, 1.0f));
+            model = glm::scale(model, cubeScales[i]);
             mainShader.setMat4("model", model);
             cubeTexture.Bind(0);
             glDrawArrays(GL_TRIANGLES, 0, 36);
