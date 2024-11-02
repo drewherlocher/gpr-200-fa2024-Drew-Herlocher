@@ -15,50 +15,50 @@
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 720;
 
-// Vertex data: position (X, Y, Z), texture coordinates (U, V)
+// Vertex data: position (X, Y, Z), normal vector (NX, NY, NZ), texture coordinates (U, V)
 float vertices[] = {
     // Front face
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,  0.0f, 0.0f, // bottom-left
+     0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,  1.0f, 0.0f, // bottom-right
+     0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,  1.0f, 1.0f, // top-right
+     0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,  1.0f, 1.0f, // top-right
+    -0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,  0.0f, 1.0f, // top-left
+    -0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,  0.0f, 0.0f, // bottom-left
     // Back face
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,   0.0f, 0.0f,  1.0f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,   0.0f, 0.0f,  1.0f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,   0.0f, 0.0f,  1.0f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,   0.0f, 0.0f,  1.0f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,   0.0f, 0.0f,  1.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,   0.0f, 0.0f,  1.0f,  0.0f, 0.0f,
     // Left face
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,   -1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,   -1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,   -1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,   -1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,   -1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,   -1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
     // Right face
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,   1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
      // Bottom face
-     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-      0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-      0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-      0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     // Top face
-     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    -0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,  0.0f, 1.0f,
+    // Top face
+   -0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+    0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+    0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+   -0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+   -0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
 };
 
 // Time
@@ -66,25 +66,20 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 // Cube data
-const int NUM_CUBES = 25;
-std::vector<glm::vec3> cubePositions(NUM_CUBES);
-std::vector<glm::vec3> cubeRotations(NUM_CUBES);
-std::vector<glm::vec3> cubeScales(NUM_CUBES);
+const int NUM_CUBES = 2;
+glm::vec3 cubePositions[NUM_CUBES] = {
+    glm::vec3(1.0f, 1.0f, -2.0f), // Position for light emitter cube
+    glm::vec3(0.0f, 0.0f, -2.0f), // Position for regular cube
+};
 
-// Cube creator
-void CreateCubes() {
-    for (int i = 0; i < NUM_CUBES; ++i) {
-        cubePositions[i] = glm::vec3(ew::RandomRange(-10.0f, 10.0f), ew::RandomRange(-10.0f, 10.0f), ew::RandomRange(-10.0f, 10.0f));
-        cubeRotations[i] = glm::vec3(ew::RandomRange(0.0f, 360.0f), ew::RandomRange(0.0f, 360.0f), ew::RandomRange(0.0f, 360.0f));
-        cubeScales[i] = glm::vec3(ew::RandomRange(0.3f, 3.0f));
-    }
-}
+// Light source settings
+glm::vec3 lightPos = cubePositions[0];
 
 int main() {
     std::cout << "Initializing...\n";
 
     srand(static_cast<unsigned int>(time(nullptr)));
-    CreateCubes();
+
 
     // Initialize GLFW
     if (!glfwInit()) {
@@ -118,16 +113,21 @@ int main() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // Position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // UV
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    // Normal vectors
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
+    // UV
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
     // Load textures
-    Texture2D cubeTexture("assets/MissingTextureInventory-3627783748.png", GL_LINEAR, GL_CLAMP_TO_EDGE);
+    Texture2D cubeTexture("assets/udq9asephmpy-2137226915.png.", GL_LINEAR, GL_CLAMP_TO_EDGE);
     Shader mainShader("assets/mainVertexShader.vert", "assets/mainFragmentShader.frag");
+    Shader lightShader("assets/lightVertexShader.vert", "assets/lightFragmentShader.frag");
 
     // Create camera object
     Camera camera(window);
@@ -143,32 +143,43 @@ int main() {
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        // Input and rendering setup
         glfwPollEvents();
-        glClearColor(0.3f, 0.4f, 0.9f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        mainShader.use();
         camera.ProcessInput(deltaTime);
 
-        // Set camera and transformations
+        // Set camera and projection matrices
         glm::mat4 view = camera.GetViewMatrix();
         glm::mat4 projection = camera.GetProjectionMatrix(static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT));
-        mainShader.setMat4("view", view);
-        mainShader.setMat4("projection", projection);
+
+        // Render the light emitter cube
+        lightShader.use();
+        lightShader.setMat4("view", view);
+        lightShader.setMat4("projection", projection);
+
+        glm::mat4 lightModel = glm::mat4(1.0f);
+        lightModel = glm::translate(lightModel, lightPos);
+        lightModel = glm::scale(lightModel, glm::vec3(0.2f));
+        lightShader.setMat4("model", lightModel);
 
         glBindVertexArray(VAO);
-        for (unsigned int i = 0; i < NUM_CUBES; i++) {
-            cubeRotations[i] += glm::vec3(30.0f * deltaTime, -30.0f * deltaTime, 30.0f * deltaTime);
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, cubePositions[i]);
-            model = glm::rotate(model, glm::radians(cubeRotations[i].x), glm::vec3(1.0f, 0.0f, 0.0f));
-            model = glm::rotate(model, glm::radians(cubeRotations[i].y), glm::vec3(0.0f, 1.0f, 0.0f));
-            model = glm::rotate(model, glm::radians(cubeRotations[i].z), glm::vec3(0.0f, 0.0f, 1.0f));
-            model = glm::scale(model, cubeScales[i]);
-            mainShader.setMat4("model", model);
-            cubeTexture.Bind(0);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        // Render the main cube with texture and lighting
+        mainShader.use();
+        mainShader.setMat4("view", view);
+        mainShader.setMat4("projection", projection);
+        mainShader.setVec3("lightPos", lightPos);
+        mainShader.setVec3("viewPos", camera.GetPosition());
+
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, cubePositions[1]);
+        mainShader.setMat4("model", model);
+
+        cubeTexture.Bind(0);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glfwSwapBuffers(window);
     }

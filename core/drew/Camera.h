@@ -85,6 +85,8 @@ public:
         return glm::lookAt(position, position + front, up);
     }
 
+    glm::vec3 GetPosition() const { return position; }
+
     glm::mat4 GetProjectionMatrix(float aspectRatio) {
         if (usePerspective) {
             return glm::perspective(glm::radians(fov), aspectRatio, 0.1f, 1000.0f);
