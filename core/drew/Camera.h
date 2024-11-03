@@ -13,7 +13,6 @@ public:
         up(0.0f, 1.0f, 0.0f), yaw(-90.0f), pitch(0.0f), fov(60.0),
         firstMouse(true), lastX(400), lastY(300), baseSpeed(5.0f),
         sprintMultiplier(2.0f), usePerspective(true) {
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetCursorPosCallback(window, MouseCallback);
         glfwSetScrollCallback(window, ScrollCallback);
         glfwSetWindowUserPointer(window, this);
@@ -44,33 +43,43 @@ public:
         else {
             canToggleProjection = true; 
         }
+
+        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS) {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+        else {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            firstMouse = true;
+        }
     }
 
     void ProcessMouseMovement(double xpos, double ypos) {
-        if (firstMouse) {
+        if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS) {
+            if (firstMouse) {
+                lastX = xpos;
+                lastY = ypos;
+                firstMouse = false;
+            }
+
+            float xOffset = xpos - lastX;
+            float yOffset = lastY - ypos;
             lastX = xpos;
             lastY = ypos;
-            firstMouse = false;
+
+            const float sensitivity = 0.3f;
+            xOffset *= sensitivity;
+            yOffset *= sensitivity;
+
+            yaw += xOffset;
+            pitch += yOffset;
+
+            if (pitch > 89.0f)
+                pitch = 89.0f;
+            if (pitch < -89.0f)
+                pitch = -89.0f;
+
+            UpdateCameraVectors();
         }
-
-        float xOffset = xpos - lastX;
-        float yOffset = lastY - ypos;
-        lastX = xpos;
-        lastY = ypos;
-
-        const float sensitivity = 0.3f;
-        xOffset *= sensitivity;
-        yOffset *= sensitivity;
-
-        yaw += xOffset;
-        pitch += yOffset;
-
-        if (pitch > 89.0f)
-            pitch = 89.0f;
-        if (pitch < -89.0f)
-            pitch = -89.0f;
-
-        UpdateCameraVectors();
     }
 
     void ProcessZoom(double yOffset) {
